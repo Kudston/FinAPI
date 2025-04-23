@@ -4,10 +4,10 @@ from pydantic import constr
 from typing import Optional, List
 
 class TransactionCreate(BasePydanticModel):
-    debited_user_id: UUID
-    credited_user_id: UUID
+    debited_account_number: str
+    credited_account_number: str
     amount: float
-    note: Optional[constr(max_length=100)] #type:ignore
+    note: Optional[str] = None #type:ignore
 
 class TransactionOut(BasePydanticModel):
     id: UUID

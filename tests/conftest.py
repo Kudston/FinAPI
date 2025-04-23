@@ -14,6 +14,34 @@ def test_password() -> str:
     return "finapi-test-password"
 
 @pytest.fixture()
+def test_get_admin_user_header(client: TestClient, test_password: str, app_settings: Settings):
+    admin_test_email = 'admintestuser@finapi.com'
+    data = {
+        'email':admin_test_email,
+        'first_name':'adminfirstname',
+        'last_name': 'adminlastname',
+        'password': test_password,
+        'is_admin':'true',
+    }
+    response = client.post('/users', json=data, headers={'admin-token':app_settings.admin_signup_token})
+
+    assert response.status_code == 200, response.json() 
+    
+    ##log user into the system
+    user_info = {
+        'username':admin_test_email,
+        'password':test_password
+    }
+    response = client.post('/token', data=user_info)
+
+    assert response.status_code == 200, response.json()
+
+    data =  response.json()
+    assert data['token_type'] == 'Bearer'
+
+    return {'Authorization': f"Bearer {data['access_token']}"}
+
+@pytest.fixture()
 def test_db():
     get_engine()
     db = get_db

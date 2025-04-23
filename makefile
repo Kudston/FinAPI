@@ -41,6 +41,6 @@ run-tests:
 
 	make run-migrations
 
-	docker compose -f docker/local/docker-compose-dev.yml run -v ./:/usr/src/fin-api  --rm fin-api python -m pytest
+	docker compose -f docker/local/docker-compose-dev.yml run --remove-orphans fin-api python -m pytest -s
 
 	make kill-test
