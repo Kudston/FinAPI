@@ -26,3 +26,21 @@ create-network:
 
 follow-dev-logs:
 	docker container logs -f fin-api
+
+
+# TEST FUNCTIONS
+build-test:
+	docker compose -f docker/test/docker-compose-test.yml build 
+
+kill-test:
+	make kill-dev
+	docker compose -f docker/test/docker-compose-test.yml down
+
+run-tests:
+	make kill-test
+
+	make run-migrations
+
+	docker compose -f docker/local/docker-compose-dev.yml run -v ./:/usr/src/fin-api  --rm fin-api python -m pytest
+
+	make kill-test

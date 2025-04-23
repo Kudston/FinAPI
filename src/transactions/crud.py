@@ -55,8 +55,8 @@ class TransactionsCrud:
 
             transaction_out = TransactionOut(
                 id= new_transaction.id,
-                sender_name= debited_account.user.get_fullname(),
-                recipients_name= credited_account.user.get_fullname(),
+                sender_name= debited_account.user.get_fullname,
+                recipients_name= credited_account.user.get_fullname,
                 recipients_account_number= credited_account.account_number,
             )
             return transaction_out
@@ -188,10 +188,14 @@ class TransactionsCrud:
             counts = query.count()
 
             transactions = query.offset(skip).limit(limit).all()
-            
-            return (counts, transactions)
+            transactions_out = [TransactionOut(
+                id= transaction.id,
+                sender_name= transaction.debited_account.user.get_fullname,
+                recipients_name= transaction.credited_account.user.get_fullname,
+                recipients_account_number= transaction.credited_account.account_number,
+            ) for transaction in transactions]
+            return (counts, transactions_out)
         except Exception as raised_exception:
-            print(raised_exception)
             raise raised_exception
         
     

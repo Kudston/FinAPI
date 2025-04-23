@@ -37,7 +37,7 @@ class User(Base):
 
     @property
     def get_fullname(self)->str:
-        return f'{self.first_name}+{self.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
 class Profile(Base):
     __tablename__ = "profiles"

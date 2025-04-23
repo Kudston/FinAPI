@@ -11,13 +11,10 @@ class TransactionCreate(BasePydanticModel):
 
 class TransactionOut(BasePydanticModel):
     id: UUID
-
     sender_name: str
-    recepients_name: str
-
-    recepient_account_no: str
-
-    note: str
+    recipients_name: str
+    recipients_account_number: str
+    note: Optional[str] = None
 
 class AccountOut(BasePydanticModel):
     id: UUID
@@ -25,6 +22,6 @@ class AccountOut(BasePydanticModel):
     account_balance: float
 
 class ManyTransactionOut(BasePydanticModel):
-    total: int 
-    transactions: List[TransactionOut]    
+    total: int
+    transactions: List[TransactionOut]
 

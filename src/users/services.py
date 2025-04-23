@@ -32,7 +32,6 @@ class UserService:
                 UserInDb.model_validate(user.__dict__)
             )
         except Exception as raised_exception:
-            print(raised_exception)
             return failed_service_result(exception=raised_exception)
         
     def get_user_by_id(
@@ -67,7 +66,6 @@ class UserService:
         update_info: UserUpdate
     )->Union[ServiceResult, Exception]:
         try:
-            print('came here already')
             if self.requesting_user.id != user_id and not self.requesting_user.is_admin:
                 return failed_service_result("You are not allowed to perform action.")
             
@@ -112,11 +110,6 @@ class UserService:
                 "current_year": datetime.datetime.now().year,
                 "company_name": self.app_settings.app_name,
             }
-            # email = EmailSchema(
-            #     emails=[user_email],
-            #     body=email_body
-            # )
-            # await send_verify_user_email(email)
             return success_service_result(AppResponseModel(
                 message="successfully sent the reset token to user email"
             ))
