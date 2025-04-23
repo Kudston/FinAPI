@@ -33,11 +33,11 @@ async def send_fund(
 
 @router.post('/fund-account', response_model=AccountOut)
 async def fund_account(
-    user_id: UUID,
+    account_number: str,
     amount: float,
     transaction_service: TransactionsService = Depends(initiate_transaction_service)
 ):
-    result = transaction_service.fund_account(user_id=user_id, amount=amount)
+    result = transaction_service.fund_account(account_number=account_number, amount=amount)
 
     return handle_result(result, AccountOut)
 

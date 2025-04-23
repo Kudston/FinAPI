@@ -26,14 +26,17 @@ class TransactionsCrud:
         request: TransactionCreate
     )-> TransactionOut:
         try:
-            debited_account = self.db.query(Account).filter(Account.user_id == request.debited_user_id).first()
+            debited_account = (self.db.query(Account).
+                            filter(Account.account_number == request.debited_account_number).first())
+
             if debited_account.account_balance < request.amount:
                 raise InsufficientBalanceException()
             
             if request.amount < self.app_settings.minimum_transaction_amount:
                 raise Exception(f"Minimum allowed for transfer is {self.app_settings.minimum_transaction_amount}")
 
-            credited_account  = self.db.query(Account).filter(Account.user_id == request.credited_user_id).first()
+            credited_account  = (self.db.query(Account).
+                                 filter(Account.account_number == request.credited_account_number).first())
             
             ##edit their account balance
             #debited
@@ -102,14 +105,14 @@ class TransactionsCrud:
         
     def fund_account(
         self,
-        user_id: str,
+        account_number: str,
         amount: float,
     )->Account:
         try:
-            user_account = self.db.query(Account).filter(Account.user_id == user_id).first()
+            user_account = self.db.query(Account).filter(Account.account_number == account_number).first()
             
             if not  user_account:
-                raise UserAccountDoesNotExistException(user_id=user_id)
+                raise UserAccountDoesNotExistException(account_number)
             
             if amount < self.app_settings.minimum_transaction_amount:
                 raise TransferAmountTooSmallException(self.app_settings.minimum_transaction_amount)

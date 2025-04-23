@@ -41,7 +41,12 @@ class TransactionsService:
         try:
             if not self.requesting_user.is_active:
                 return failed_service_result(UserNotActiveException())
+
+            debited_account = self.crud.get_user_account_by_id(self.requesting_user.id)
             
+            if debited_account.__dict__['account_number'] != request.debited_account_number:
+                return failed_service_result('You don"t have permission to send money from this account.')
+                        
             transaction_slip = self.crud.send_fund(request=request)
             
             return success_service_result(
@@ -52,14 +57,14 @@ class TransactionsService:
         
     def fund_account(
         self,
-        user_id: UUID,
+        account_number: str,
         amount: float
     )->Union[ServiceResult, Exception]:
         try:
             if not self.requesting_user.is_admin:
                 return failed_service_result(RestrictedOperationException())
 
-            account = self.crud.fund_account(user_id=user_id, amount=amount)
+            account = self.crud.fund_account(account_number=account_number, amount=amount)
             return success_service_result(
                 AccountOut.model_validate(account.__dict__)
             )            
