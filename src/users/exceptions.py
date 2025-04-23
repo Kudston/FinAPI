@@ -5,3 +5,4 @@ class UserNotFoundException(Exception):
 
 class UserNotActiveException(Exception):
     pass
+

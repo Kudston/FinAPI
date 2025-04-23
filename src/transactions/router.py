@@ -67,7 +67,7 @@ def get_transaction_history(
         transaction_type=transaction_type,
         min_amount=min_amount,
     )
-    
+
     return handle_result(result=result, expected_schema=ManyTransactionOut)
 
 

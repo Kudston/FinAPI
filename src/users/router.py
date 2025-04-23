@@ -29,7 +29,7 @@ async def create_user(
     user_service: UserService = Depends(initiate_anonymous_user_service)
 ):
     result = await user_service.create_user(user_info=user_info, admin_token=admin_token)
-
+    
     return handle_result(result, expected_schema=UserInDb)
 
 @router.get('/get-user-by-id', response_model=UserInDb)

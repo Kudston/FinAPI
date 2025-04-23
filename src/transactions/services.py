@@ -41,9 +41,9 @@ class TransactionsService:
         try:
             if not self.requesting_user.is_active:
                 return failed_service_result(UserNotActiveException())
-
+            
             transaction_slip = self.crud.send_fund(request=request)
-
+            
             return success_service_result(
                 TransactionOut.model_validate(transaction_slip)
             )
@@ -91,6 +91,7 @@ class TransactionsService:
                 transaction_type=transaction_type,
                 min_amount=min_amount
             )
+
             result_dict = {
                 'total':results[0],
                 'transactions':results[1]
@@ -101,5 +102,3 @@ class TransactionsService:
             )
         except Exception as raised_exception:
             return failed_service_result(raised_exception)
-        
-    

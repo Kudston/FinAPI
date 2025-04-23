@@ -37,6 +37,6 @@ app.include_router(auth_router)
 app.include_router(users_router)
 app.include_router(transactions_router)
 
-@app.get('')
+@app.get('/')
 def welcome():
     return {'detail':'Welcome to finapi'}
