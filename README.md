@@ -10,13 +10,20 @@
 **Steps to Run API**
 
  -    Create a network:
- -    make create-network
+    `make create-network`
 
 Build the development environment:
 `make build-dev`
 
 Run the development server:
 `make run-dev`
+
+Shutdown the development server:
+`make kill-dev`
+
+Run test cases:
+`make run-test`
+
 
 The server will start and by default run at localhost:8000.
 
