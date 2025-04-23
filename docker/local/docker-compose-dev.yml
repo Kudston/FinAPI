@@ -1,0 +1,42 @@
+services:
+  fin-api:
+    container_name: fin-api
+    build:
+      context: ./../../
+      dockerfile: ./docker/Dockerfile
+
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    volumes:
+      - ./../../:/usr/src/fin-api/
+    command: uvicorn src.main:app --reload --port 8000 --host 0.0.0.0
+    env_file:
+      - ./../../.env
+
+    depends_on:
+      - db
+
+    networks:
+      - finapi-network
+
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    shm_size: 128mb
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_PASSWORD: examples
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+
+    networks:
+      - finapi-network
+
+networks:
+  finapi-network:
+    driver: bridge
