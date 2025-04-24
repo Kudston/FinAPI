@@ -37,6 +37,7 @@ kill-test:
 	docker compose -f docker/test/docker-compose-test.yml down
 
 run-tests:
+	make kill-dev
 	make kill-test
 
 	make run-migrations
