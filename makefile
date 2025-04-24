@@ -2,7 +2,7 @@ init-alembic:
 	alembic init ./src/
 
 run-migrations:
-	docker compose -f ./docker/local/docker-compose-dev.yml run -v ./src/:/usr/src/fin-api --remove-orphans fin-api alembic upgrade head
+	docker compose -f ./docker/local/docker-compose-dev.yml run --remove-orphans fin-api alembic upgrade head
 
 downgrade-alembic:
 	docker compose -f ./docker/local/docker-compose-dev.yml run -v ./src/:/usr/src/fin-api --remove-orphans fin-api alembic downgrade head
@@ -16,7 +16,7 @@ build-dev:
 
 run-dev:
 	make run-migrations
-	docker compose -f ./docker/local/docker-compose-dev.yml up -d
+	docker compose -f ./docker/local/docker-compose-dev.yml up --remove-orphans -d
 
 kill-dev:
 	docker compose -f ./docker/local/docker-compose-dev.yml down
@@ -38,10 +38,10 @@ kill-test:
 
 run-tests:
 	make kill-dev
-	make kill-test
+	# make kill-test
 
 	make run-migrations
 
-	docker compose -f docker/local/docker-compose-dev.yml run --remove-orphans fin-api python -m pytest -s
+	docker compose -f docker/local/docker-compose-dev.yml up --remove-orphans fin-api python -m pytest -s
 
 	make kill-test

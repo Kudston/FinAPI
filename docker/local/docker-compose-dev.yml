@@ -17,8 +17,8 @@ services:
     depends_on:
       - db
 
-    networks:
-      - finapi-network
+    # networks:
+    #   - finapi-network
 
   db:
     container_name: db
@@ -34,9 +34,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
 
-    networks:
-      - finapi-network
+    # networks:
+    #   - finapi-network
 
 networks:
-  finapi-network:
-    driver: bridge
+  default:
+    external: true
+    name: finapi-network
