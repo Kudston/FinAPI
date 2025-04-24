@@ -28,7 +28,9 @@ Run test cases:
 The server will start and by default run at localhost:8000.
 
 **Question 2.**
-Race Conditions in Database Operations
+
+**Race Conditions in Database Operations**
+
 A **race condition** is a situation where read/write operations on a database row occur simultaneously, potentially leading to data corruption or incorrect updates.
 
 Scenario:
