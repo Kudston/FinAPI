@@ -34,14 +34,7 @@ build-test:
 
 kill-test:
 	make kill-dev
-	docker compose -f docker/test/docker-compose-test.yml down
 
 run-tests:
-	make kill-dev
-	# make kill-test
-
-	make run-migrations
-
-	docker compose -f docker/local/docker-compose-dev.yml up --remove-orphans fin-api python -m pytest -s
-
 	make kill-test
+	docker compose -f docker/local/docker-compose-dev.yml run --remove-orphans fin-api python -m pytest
